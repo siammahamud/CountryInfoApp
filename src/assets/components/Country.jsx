@@ -19,11 +19,11 @@ const handleBtnClick = () => {
       <div className="space-y-2">
       <h3><strong>Region </strong>: {country?.region}</h3>
       <h3><strong>Population </strong>: {country?.population}</h3>
-      <button 
+      <button disabled={toggles}
        onClick={handleBtnClick}
-       className="hover:bg-red-500 w-full text-center mx-auto p-2 font-semibold bg-black/50 text-white  rounded-md ">
+       className={` w-full text-center mx-auto p-2 font-semibold  text-white  rounded-md ${toggles?'bg-red-400 cursor-not-allowed':'bg-black/50'}`}>
         {
-          setToggles ? "Details" : "Visited"
+          toggles ? "Visited" : "Show Details"
         }
        </button>
       </div>
