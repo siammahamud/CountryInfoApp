@@ -69,6 +69,7 @@ const Countries = () => {
       {/* main content all countries */}
       <div className="pt-24 grid place-items-center grid-cols-1  md:grid-cols-2 lg:grid-cols-4  gap-12 w-[100%] py-10 bg-gradient-to-r bg-gray-200 px-8">
         { countries
+          .sort((a, b) => b.population - a.population)
           .map((country) => (
             <Country
               key={country?.cca3}
