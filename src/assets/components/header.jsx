@@ -9,8 +9,8 @@ export function Header() {
             COUNTRY@INFO
           </h1>
         </div>
-        <div>
-         <select name="sort" className="px-4 py-1 rounded-md mr-5">
+        <div className="flex">
+         <select name="sort" className="px-4 py-1 rounded-md mr-5 hidden md:block">
             <option value="">Sort Countries</option>
             <option value="name-a-z">#Sort by Name (A - Z)</option>
             <option value="name-z-a">#Sort by Name (Z - A)</option>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import Country from "./Country";
 import { Modal } from "./Modal";
 import { Header } from "./header";
+import { CountriesFooter } from "./Footer";
 
 const Countries = () => {
   const [countries, setcountries] = useState([]);
@@ -76,6 +77,7 @@ const Countries = () => {
             />
           ))}
       </div>
+      <CountriesFooter/>
     </>
   );
 };
