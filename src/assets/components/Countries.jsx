@@ -11,17 +11,48 @@ const Countries = () => {
   const [country, setcountry] = useState({});
   const [isModalOpen, setisModalOpen] = useState(false);
   const [searchQuary, setsearchQuary] = useState("");
+  const [sortQuary, setsortQuary] = useState("");
   const [filteredCountries, setfilteredCountries] = useState([]);
+/// function for handle sorting operation 
+  const handleSorting = (e) => {
+    const value = e.target.value;
+    const independent = countries.filter((country) => country.independent);
+    const notIndependent = countries.filter((country) => country.independent !== true)
+    const sortedCountries = filteredCountries.sort((a,b) => {
+      switch(value) {
+        case "ascending":
+          return a?.name?.common.localeCompare(b?.name?.common);
+        case "descending":
+          return b?.name?.common.localeCompare(a?.name?.common);
+        case "population-ascending":
+          return a?.population - b?.population;
+        case "population-descending":
+            return b?.population - a?.population;         
+        default :
+          return b?.population - a?.population;
+      }
+    })
+    setsortQuary(value);
+    if(value === "independent"){
+      setfilteredCountries(independent)
+    }else if(value === "notIndependent"){
+      setfilteredCountries(notIndependent)
+    }else{
+      setfilteredCountries(sortedCountries);
+    }
+  }
 
- const handleSearch = (e) => {
-   const value = e.target.value;
-   setsearchQuary(value);
-   const fltrCountry = countries.filter((country) => country?.name?.common.toLowerCase().includes(value.toLowerCase()) )
-   console.log(value);
-   setfilteredCountries(fltrCountry);
-  
- }
-  
+
+  ///function for filtering searched data
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setsearchQuary(value);
+    const fltrCountry = countries.filter((country) =>
+      country?.name?.common.toLowerCase().includes(value.toLowerCase())
+    );
+    setfilteredCountries(fltrCountry);
+  };
+
   //  function for filtering data from Europe,America region countries and india, israel also
 
   const filterFunc = (data) => {
@@ -74,13 +105,12 @@ const Countries = () => {
   return (
     <>
       {/* Header  */}
-      <Header searchQuary={searchQuary} handleSearch={handleSearch}/>
+      <Header searchQuary={searchQuary} handleSearch={handleSearch} sortQuary={sortQuary} handleSorting={handleSorting}/>
       {/* Modal */}
       {isModalOpen && <Modal country={country} closeModal={closeModal} />}
       {/* main content all countries */}
       <div className="pt-24 grid place-items-center grid-cols-1  md:grid-cols-2 lg:grid-cols-4  gap-12 w-[100%] py-10 bg-gradient-to-r bg-gray-200 px-8">
-        { filteredCountries
-          .sort((a, b) => b.population - a.population)
+        {filteredCountries
           .map((country) => (
             <Country
               key={country?.cca3}
@@ -90,7 +120,7 @@ const Countries = () => {
           ))}
       </div>
       {/* Footer  */}
-      <CountriesFooter/>
+      <CountriesFooter />
     </>
   );
 };

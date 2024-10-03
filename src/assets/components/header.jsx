@@ -1,6 +1,6 @@
 
 // eslint-disable-next-line react/prop-types
-export function Header({searchQuary, handleSearch}) {
+export function Header({searchQuary, handleSearch, handleSorting}) {
   return (
    
     <header>
@@ -11,11 +11,14 @@ export function Header({searchQuary, handleSearch}) {
           </h1>
         </div>
         <div className="flex">
-         <select name="sort" className="px-4 py-1 rounded-md mr-5 hidden md:block">
-            <option value="">Sort Countries</option>
-            <option value="name-a-z">#Sort by Name (A - Z)</option>
-            <option value="name-z-a">#Sort by Name (Z - A)</option>
-            <option value="population">#Sort by Population</option>
+         <select onChange={handleSorting} name="sort" className="px-4 py-1 rounded-md mr-5 hidden md:block">
+            <option value="">Sort Countries By</option>
+            <option value="ascending"> Name (A - Z)</option>
+            <option value="descending"> Name (Z - A)</option>
+            <option value="population-ascending">Population(Ascending)</option>
+            <option value="population-descending">Population(Descending)</option>
+            <option value="independent">Independent</option>
+            <option value="notIndependent">Not Independent</option>
          </select>
         
          <input 
