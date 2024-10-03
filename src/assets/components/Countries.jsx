@@ -4,12 +4,14 @@ import Country from "./Country";
 import { Modal } from "./Modal";
 import { Header } from "./header";
 import { CountriesFooter } from "./Footer";
+import Loader from "./loader";
 
 const Countries = () => {
   /// states ///
   const [countries, setcountries] = useState([]);
   const [country, setcountry] = useState({});
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [loader, setloader] = useState(true);
   const [searchQuary, setsearchQuary] = useState("");
   const [sortQuary, setsortQuary] = useState("");
   const [filteredCountries, setfilteredCountries] = useState([]);
@@ -68,15 +70,22 @@ const Countries = () => {
   // data fetching from rest countries api
   useEffect(() => {
     const fetchData = async () => {
-      const countriesData = await fetch("https://restcountries.com/v3.1/all");
-      const data = await countriesData.json();
-      const filterdData = filterFunc(data);
-      setcountries(filterdData);
-      setfilteredCountries(filterdData);
-      // console.log(filterdData);
+      try {
+        const countriesData = await fetch("https://restcountries.com/v3.1/all");
+        const data = await countriesData.json();
+        const filterdData = filterFunc(data);
+        setcountries(filterdData);
+        setfilteredCountries(filterdData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setloader(false);
+      }
     };
+  
     fetchData();
   }, []);
+  
 
   const handleDetails = (country) => {
     const currency = Object.entries(country?.currencies || {}).map((crncy) => {
@@ -104,6 +113,7 @@ const Countries = () => {
   };
   return (
     <>
+    {loader && <Loader/>}
       {/* Header  */}
       <Header searchQuary={searchQuary} handleSearch={handleSearch} sortQuary={sortQuary} handleSorting={handleSorting}/>
       {/* Modal */}
