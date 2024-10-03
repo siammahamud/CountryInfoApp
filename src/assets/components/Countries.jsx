@@ -6,12 +6,21 @@ import { Header } from "./header";
 import { CountriesFooter } from "./Footer";
 
 const Countries = () => {
+  /// states ///
   const [countries, setcountries] = useState([]);
   const [country, setcountry] = useState({});
   const [isModalOpen, setisModalOpen] = useState(false);
-  // const [sortCountry, setsortCountry] = useState({});
+  const [searchQuary, setsearchQuary] = useState("");
+  const [filteredCountries, setfilteredCountries] = useState([]);
 
- 
+ const handleSearch = (e) => {
+   const value = e.target.value;
+   setsearchQuary(value);
+   const fltrCountry = countries.filter((country) => country?.name?.common.toLowerCase().includes(value.toLowerCase()) )
+   console.log(value);
+   setfilteredCountries(fltrCountry);
+  
+ }
   
   //  function for filtering data from Europe,America region countries and india, israel also
 
@@ -32,6 +41,7 @@ const Countries = () => {
       const data = await countriesData.json();
       const filterdData = filterFunc(data);
       setcountries(filterdData);
+      setfilteredCountries(filterdData);
       // console.log(filterdData);
     };
     fetchData();
@@ -63,12 +73,13 @@ const Countries = () => {
   };
   return (
     <>
-      <Header/>
+      {/* Header  */}
+      <Header searchQuary={searchQuary} handleSearch={handleSearch}/>
       {/* Modal */}
       {isModalOpen && <Modal country={country} closeModal={closeModal} />}
       {/* main content all countries */}
       <div className="pt-24 grid place-items-center grid-cols-1  md:grid-cols-2 lg:grid-cols-4  gap-12 w-[100%] py-10 bg-gradient-to-r bg-gray-200 px-8">
-        { countries
+        { filteredCountries
           .sort((a, b) => b.population - a.population)
           .map((country) => (
             <Country
@@ -78,6 +89,7 @@ const Countries = () => {
             />
           ))}
       </div>
+      {/* Footer  */}
       <CountriesFooter/>
     </>
   );

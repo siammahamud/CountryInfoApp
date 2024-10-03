@@ -1,5 +1,6 @@
 
-export function Header() {
+// eslint-disable-next-line react/prop-types
+export function Header({searchQuary, handleSearch}) {
   return (
    
     <header>
@@ -18,6 +19,8 @@ export function Header() {
          </select>
         
          <input 
+         value={searchQuary}
+         onChange={handleSearch}
          placeholder="Search...."
          className=" px-4 py-1 focus:outline-none border-none rounded-lg" 
          type="text" />
